@@ -58,6 +58,41 @@ func main() {
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1: %v %v \n", part1, elapsed)
+
+	start = time.Now()
+
+	for _, value := range lines {
+
+		repeatedPair := false
+		repeatedLetterWithGap := false
+
+		var pairs [][]byte
+		for i := 0; i < len(value)-1; i++ {
+			pairs = append(pairs, value[i:i+2])
+		}
+
+		for i := 0; i < len(pairs)-1; i++ {
+			for j := i + 2; j < len(pairs); j++ {
+				if compare(pairs[i], pairs[j]) {
+					repeatedPair = true
+					break
+				}
+			}
+		}
+
+		for i := 0; i < len(value)-2; i++ {
+			if value[i] == value[i+2] {
+				repeatedLetterWithGap = true
+				break
+			}
+		}
+
+		if repeatedLetterWithGap && repeatedPair {
+			part2++
+		}
+	}
+
+	elapsed = time.Since(start)
 	fmt.Printf("Part 2: %v %v", part2, elapsed)
 
 }

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"time"
 )
 
@@ -26,7 +25,6 @@ func main() {
 	lines := bytes.Split(dat, []byte("\n"))
 
 	part2 := 0
-
 	totalCharacters := 0
 	realCharacters := 0
 
@@ -34,44 +32,44 @@ func main() {
 		line := string(value)
 		totalCharacters += len(line)
 
-		line = line[1 : len(line)-1]
-		splitLine := strings.Split(line, `\`)
-
+		newLine := line[1 : len(line)-1]
 		currentReal := 0
 
-		if len(splitLine) == 1 {
-			currentReal += len(splitLine[0])
-		} else {
-
-			for i := 0; i < len(splitLine); i = i + 2 {
-				currentReal += len(splitLine[i])
-
-				if string(splitLine[i+1][0]) == "x" {
-					currentReal += 1
-				} else if string(splitLine[i+1][0]) == `\` {
-					currentReal += 1
-				} else if string(splitLine[i+1][0]) == `"` {
-					currentReal += 1
+		for i := 0; i < len(newLine); i++ {
+			char := string(newLine[i])
+			if char == `\` {
+				nextChar := string(newLine[i+1])
+				if nextChar == "x" {
+					i = i + 2
+				} else if nextChar == `"` || nextChar == `\` {
+					i++
+					currentReal++
 				}
-
+			} else {
+				currentReal++
 			}
-
 		}
-
-		fmt.Println(realCharacters)
 		realCharacters += currentReal
 
-		fmt.Println(splitLine)
-		fmt.Println()
+		currentPart2 := 0
+
+		for i := 0; i < len(line); i++ {
+			char := string(line[i])
+			if char == `"` || char == `\` {
+				currentPart2 += 2
+			} else {
+				currentPart2++
+			}
+		}
+		//Double quotes around the string
+		currentPart2 += 2
+		part2 += currentPart2
 
 	}
 
-	fmt.Println(totalCharacters)
-	fmt.Println(realCharacters)
-
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1: %v %v \n", totalCharacters-realCharacters, elapsed)
-	fmt.Printf("Part 2: %v %v \n", part2, elapsed)
+	fmt.Printf("Part 2: %v %v \n", part2-totalCharacters, elapsed)
 
 }
 

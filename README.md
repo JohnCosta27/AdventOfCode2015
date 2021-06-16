@@ -11,3 +11,4 @@ Partial solution, misread the instructions, need to rethink it entirely. I actua
 
 ## Day 8
 Just started it, not finished as I have to do something else right now.
+- Finished it, solution takes less than 1ms to complete. Could have finished it much quicker if I didn't forget to add regular characters onto the end result.
